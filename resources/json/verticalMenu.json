@@ -1,0 +1,36 @@
+{"menu": [
+    {"url":"/", "name":"Dashboard", "slug":"dashboard", "badgeClass": "badge badge-warning badge-pill float-right mr-2", "icon":"feather icon-home"},
+    {"url":"","navheader":"Projects","icon":""},
+        {"url":"", "name":"Project", "icon":"feather icon-layers",
+          "submenu": [
+            {"url":"/project/add-project", "name":"Add Project", "icon":"feather icon-plus-circle", "i18n":"nav.add_project"},
+            {"url":"/project/active-project-list" , "name":"Active Projects", "icon":"feather icon-list", "i18n":"nav.active_projects"},
+            {"url":"/project/hold-project-list", "name":"Hold Projects", "icon":"feather icon-list", "i18n":"nav.hold_projects"},
+            {"url":"/project/completed-project-list", "name":"Completed Projects", "icon":"feather icon-list", "i18n":"nav.completed_projects"},
+            {"url":"/project/cancelled-project-list", "name":"Cancelled Projects", "icon":"feather icon-list", "i18n":"nav.cancelled_projects"},
+            {"url":"/project/all-project-list", "name":"All Projects List", "icon":"feather icon-list", "i18n":"nav.all_projects_list"}
+          ]
+        },
+    {"url":"","navheader":"Clients","icon":""},
+        {"url":"", "name":"Client", "icon":"feather icon-layers",
+          "submenu": [
+            {"url":"/client/add-client", "name":"Add Project", "icon":"feather icon-plus-circle", "i18n":"nav.add_client"},
+            {"url":"/client/client-list", "name":"Client Lists", "icon":"feather icon-list", "i18n":"nav.client_list"}
+          ]
+        },
+    {"url":"","navheader":"Vendors","icon":""},
+    {"url":"", "name":"Vendor", "icon":"feather icon-layers",
+      "submenu": [
+        {"url":"/vendor/add-vendor", "name":"Add Vendor", "icon":"feather icon-plus-circle", "i18n":"nav.add_vendor"},
+        {"url":"/vendor/vendor-list", "name":"Vendor Lists", "icon":"feather icon-list", "i18n":"nav.vendor_list"}
+      ]
+    },
+    {"url":"","navheader":"Administrator","icon":""},
+    {"url":"", "name":"Administrator", "icon":"feather icon-layers",
+      "submenu": [
+        {"url":"/administrator/add-administrator", "name":"Add Administrator", "icon":"feather icon-plus-circle", "i18n":"nav.add_administrator"},
+        {"url":"/administrator/administrator-list", "name":"Administrator Lists", "icon":"feather icon-list", "i18n":"nav.administrator_list"}
+      ]
+    }
+]}
+
