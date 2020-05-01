@@ -85,6 +85,9 @@ class AdministratorController extends Controller
         $administrator->note = $request->post('note');
         $administrator->status = $request->post('status');
         $administrator->project_id = $request->post('project_id');
+        $administrator->cover_image = $request->post('cover_image');
+        $administrator->fb_url = $request->post('fb_url');
+        $administrator->instagram_url = $request->post('instagram_url');
 
         $administrator->save();
 
@@ -92,5 +95,25 @@ class AdministratorController extends Controller
 
         return Helper::redirectBackWithNotification('success', 'Administrator Successfully Created!');
 
+    }
+
+    public function administratorDetails($id)
+    {
+        $pageConfigs = [
+            'sidebarCollapsed' => true
+        ];
+
+
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/administrator/add-administrator", 'name' => "Administrator"], ['name' => "Add Administrator"]
+        ];
+
+        $client = User::findOrFail($id);
+
+        return view('front-end.administrator.details-administrator')->with([
+            'breadcrumbs' => $breadcrumbs,
+            'client' => $client,
+            'pageConfigs' => $pageConfigs,
+        ]);
     }
 }

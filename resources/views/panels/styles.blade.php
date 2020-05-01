@@ -31,6 +31,13 @@
         {{-- Datatable vendor css files --}}
         <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/datatables.min.css')) }}">
 
+        {{--    switchery Toggle--}}
+        <link rel="stylesheet" href="{{ asset('css/plugins/switchery/switchery.min.css') }}">
+
+
+        {{--    Toastr Notifications--}}
+        <link rel="stylesheet" href="{{ asset('css/plugins/toastr/toastr.min.css') }}">
+
 {{-- {!! Helper::applClasses() !!} --}}
 @php
 use App\Helpers\Helper;$configData = Helper::applClasses();

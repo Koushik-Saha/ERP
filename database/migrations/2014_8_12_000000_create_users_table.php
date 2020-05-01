@@ -26,6 +26,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('image')->nullable();
+            $table->string('cover_image')->nullable();
+            $table->string('fb_url')->nullable();
+            $table->string('instagram_url')->nullable();
             $table->boolean('can_login')->default(false);
             $table->string('section')->nullable();
             $table->float('salary', 10, 2)->nullable();

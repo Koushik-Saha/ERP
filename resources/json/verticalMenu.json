@@ -12,24 +12,38 @@
           ]
         },
     {"url":"","navheader":"Clients","icon":""},
-        {"url":"", "name":"Client", "icon":"feather icon-layers",
+        {"url":"", "name":"Client", "icon":"feather icon-aperture",
           "submenu": [
             {"url":"/client/add-client", "name":"Add Project", "icon":"feather icon-plus-circle", "i18n":"nav.add_client"},
             {"url":"/client/client-list", "name":"Client Lists", "icon":"feather icon-list", "i18n":"nav.client_list"}
           ]
         },
     {"url":"","navheader":"Vendors","icon":""},
-    {"url":"", "name":"Vendor", "icon":"feather icon-layers",
+    {"url":"", "name":"Vendor", "icon":"feather icon-align-justify",
       "submenu": [
         {"url":"/vendor/add-vendor", "name":"Add Vendor", "icon":"feather icon-plus-circle", "i18n":"nav.add_vendor"},
         {"url":"/vendor/vendor-list", "name":"Vendor Lists", "icon":"feather icon-list", "i18n":"nav.vendor_list"}
       ]
     },
     {"url":"","navheader":"Administrator","icon":""},
-    {"url":"", "name":"Administrator", "icon":"feather icon-layers",
+    {"url":"", "name":"Administrator", "icon":"feather icon-book",
       "submenu": [
         {"url":"/administrator/add-administrator", "name":"Add Administrator", "icon":"feather icon-plus-circle", "i18n":"nav.add_administrator"},
         {"url":"/administrator/administrator-list", "name":"Administrator Lists", "icon":"feather icon-list", "i18n":"nav.administrator_list"}
+      ]
+    },
+    {"url":"","navheader":"WorkingShift","icon":""},
+    {"url":"", "name":"WorkingShift", "icon":"feather icon-crosshair",
+      "submenu": [
+        {"url":"/working-shift/add-working-shift", "name":"Add WorkingShift", "icon":"feather icon-plus-circle", "i18n":"nav.add_working_shift"}
+      ]
+    },
+    {"url":"","navheader":"ManPower","icon":""},
+    {"url":"", "name":"ManPower", "icon":"feather icon-airplay",
+      "submenu": [
+        {"url":"/manpower/add-manpower", "name":"Add ManPower", "icon":"feather icon-plus-circle", "i18n":"nav.add_manpower"},
+        {"url":"/manpower/add-designation", "name":"Add Designation", "icon":"feather icon-plus-circle", "i18n":"nav.add_designation"},
+        {"url":"/manpower/staff-list", "name":"Add Staff List", "icon":"feather icon-list", "i18n":"nav.staff_list"}
       ]
     }
 ]}

@@ -81,6 +81,9 @@ class VendorController extends Controller
         $vendor->note = $request->post('note');
         $vendor->status = $request->post('status');
         $vendor->project_id = $request->post('project_id');
+        $vendor->cover_image = $request->post('cover_image');
+        $vendor->fb_url = $request->post('fb_url');
+        $vendor->instagram_url = $request->post('instagram_url');
 
         $vendor->save();
 
@@ -88,5 +91,25 @@ class VendorController extends Controller
 
         return Helper::redirectBackWithNotification('success', 'Vendor Successfully Created!');
 
+    }
+
+
+    public function vendorDetails($id)
+    {
+        $pageConfigs = [
+            'sidebarCollapsed' => true
+        ];
+
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/vendor/add-vendor", 'name' => "Vendor"], ['name' => "Add Vendor"]
+        ];
+
+        $client = User::findOrFail($id);
+
+        return view('front-end.vendor.details-vendor')->with([
+            'breadcrumbs' => $breadcrumbs,
+            'client' => $client,
+            'pageConfigs' => $pageConfigs,
+        ]);
     }
 }

@@ -40,7 +40,7 @@
                                             {{ $projects->project_location }}
                                         </td>
                                         <td>
-                                            {{ $projects->project_client_id }}
+                                            {{ $projects->client->name }}
                                         </td>
                                         <td>
                                             {{ number_format($projects->project_price,2) }}

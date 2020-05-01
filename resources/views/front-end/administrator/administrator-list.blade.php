@@ -37,7 +37,9 @@
                                                 <span class="badge badge-primary badge-lg mr-1 mb-1">{{ $users->role_name }}</span>
                                             </td>
                                             <td>
-                                                {{ $users->name }}
+                                                <a href="{{ route('administrator-details', ['id' => $users->id]) }}" title="See Administrator Details">
+                                                    {{ $users->name }}
+                                                </a>
                                             </td>
                                             <td>
                                                 {{ $users->fathers_name }}

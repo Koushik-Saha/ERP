@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\ProjectLogs;
 use App\Models\Projects;
 use App\User;
 use Carbon\Carbon;
@@ -76,6 +77,9 @@ class ClientController extends Controller
         $client->salary = $request->post('salary');
         $client->note = $request->post('note');
         $client->status = $request->post('status');
+        $client->cover_image = $request->post('cover_image');
+        $client->fb_url = $request->post('fb_url');
+        $client->instagram_url = $request->post('instagram_url');
 
         $client->save();
 
@@ -85,7 +89,24 @@ class ClientController extends Controller
 
     }
 
+    public function clientDetails($id)
+    {
+        $pageConfigs = [
+            'sidebarCollapsed' => true
+        ];
 
 
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/client/add-client", 'name' => "Client"], ['name' => "Add Client"]
+        ];
+
+        $client = User::findOrFail($id);
+
+        return view('front-end.client.details-client')->with([
+            'breadcrumbs' => $breadcrumbs,
+            'client' => $client,
+            'pageConfigs' => $pageConfigs,
+        ]);
+    }
 
 }

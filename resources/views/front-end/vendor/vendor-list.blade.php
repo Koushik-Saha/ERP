@@ -33,7 +33,9 @@
                                         <tr>
                                             <td scope="row">{{ $index+1 }}</td>
                                             <td>
-                                                {{ $users->name }}
+                                                <a href="{{ route('vendor-details', ['id' => $users->id]) }}" title="See Vendor Details">
+                                                    {{ $users->name }}
+                                                </a>
                                             </td>
                                             <td>
                                                 {{ $users->fathers_name }}

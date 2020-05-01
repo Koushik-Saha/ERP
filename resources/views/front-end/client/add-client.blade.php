@@ -51,8 +51,6 @@
                                                            placeholder="Password">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Confirm Password</label>
                                                 <div class="controls">
@@ -62,6 +60,8 @@
                                                            placeholder="Repeat Password">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Phone Number:</label>
                                                 <div class="controls">
@@ -89,6 +89,24 @@
                                                     <input type="number" name="salary" class="form-control" required
                                                            data-validation-required-message="Expected Salary & min field must be at least 3 digit"
                                                            minlength="3" placeholder="Expected Salary">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Facebook Link</label>
+                                                <div class="controls">
+                                                    <input type="text" name="fb_url" class="form-control"
+                                                           data-validation-regex-regex="^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+                                                           data-validation-regex-message="Must be a valid url"
+                                                           placeholder="Enter valid url" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Instagram Link</label>
+                                                <div class="controls">
+                                                    <input type="text" name="instagram_url" class="form-control"
+                                                           data-validation-regex-regex="^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+                                                           data-validation-regex-message="Must be a valid url"
+                                                           placeholder="Enter valid url" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,6 +137,21 @@
                                                         </a>
                                                     </span>
                                                         <input id="thumbnail" class="form-control" type="text" name="image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <label for="contact-info-icon">Client Cover Image Upload: </label>
+                                                <div class="card-content">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <a id="lfm2" data-input="thumbnail2" data-preview="holder2" class="btn btn-primary text-white">
+                                                                <i class="fa fa-picture-o"></i> Choose Images
+                                                            </a>
+                                                        </span>
+                                                        <input id="thumbnail2" class="form-control" type="text" name="cover_image">
                                                     </div>
                                                 </div>
                                             </div>

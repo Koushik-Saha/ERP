@@ -6,7 +6,9 @@ use App\Helpers\Helper;
 use App\ImageUpload;
 use App\Models\MotherCategory;
 use App\Models\Project;
+use App\Models\ProjectLogs;
 use App\Models\Projects;
+use App\Models\Role;
 use App\Models\Settings;
 use App\User;
 use Carbon\Carbon;
@@ -164,9 +166,16 @@ class ProjectsController extends Controller
 
         $project = Projects::findOrFail($id);
 
+        $user = User::where('role_id','2')->get();
+
+        $projectLogs = ProjectLogs::all();
+
+
         return view('front-end.projects.details-project')->with([
             'breadcrumbs' => $breadcrumbs,
             'project' => $project,
+            'user' => $user,
+            'projectLogs' => $projectLogs,
         ]);
     }
 

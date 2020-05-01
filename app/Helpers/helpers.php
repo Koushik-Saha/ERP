@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 use App\Models\Activity;
+use App\Models\Payment;
+use App\User;
+use Carbon\Carbon;
 use Config;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -10,6 +13,53 @@ use Illuminate\Validation\Validator;
 
 class Helper
 {
+
+    public static function getMonthlyAttendancesOfUser(string $month, User $user) {
+        return $user->attendances()
+            ->whereYear('updated_at', '=', \Str::before($month, '-'))
+            ->whereMonth('updated_at', '=', \Str::after($month, '-'))
+            ->get();
+    }
+
+    public static function getMonthlyPaymentsToStaff(string $month, User $user) {
+        return $user->staffPayments()
+            ->whereYear('updated_at', '=', \Str::before($month, '-'))
+            ->whereMonth('updated_at', '=', \Str::after($month, '-'))
+            ->get();
+    }
+
+
+    public static function sendJsonResponse(string $status = 'success', string $msg = 'OK!') {
+        return response()->json([
+            'status' => strtolower($status),
+            'msg'    => $msg
+        ]);
+    }
+
+
+    public static function createNewPayment(array $data, string $note = 'New Payment Made!') {
+        $payment = new Payment();
+
+        $payment->payment_type = isset($data['type']) ? $data['type'] : null;
+        $payment->payment_to_user = isset($data['to_user']) ? $data['to_user'] : null;
+        $payment->payment_from_user = isset($data['from_user']) ? $data['from_user'] : null;
+        $payment->payment_to_bank_account = isset($data['to_bank_account']) ? $data['to_bank_account'] : null;
+        $payment->payment_from_bank_account = isset($data['from_bank_account']) ? $data['from_bank_account'] : null;
+        $payment->payment_for_project = $data['project'];
+        $payment->payment_purpose = $data['purpose'];
+        $payment->payment_amount = $data['amount'];
+        $payment->payment_by = isset($data['by']) ? $data['by'] : 'cash';
+        $payment->payment_date = isset($data['date']) ? $data['date'] : Carbon::now()->toDateString();
+        $payment->payment_image = isset($data['image']) ? $data['image'] : null;
+        $payment->payment_note = isset($data['note']) ? $data['note'] : null;
+
+        if($payment->save()) {
+            Helper::addActivity('payment', $payment->payment_id, $note);
+            return true;
+        }
+        return false;
+    }
+
     public static function mobileNumber(string $mobile = null) {
         return ($mobile) ? '+880 ' . substr($mobile, 0, 4) . ' ' . substr($mobile, -6) : null;
     }

@@ -1559,7 +1559,7 @@ function parse(event) {
 
 require.register("switchery", function (exports, module) {
 /**
- * Switchery 0.8.1
+ * switchery 0.8.1
  * http://abpetkov.github.io/switchery/
  *
  * Authored by Alexander Petkov
@@ -1581,13 +1581,13 @@ var transitionize = require('abpetkov~transitionize@0.0.3')
   , events = require('component~events@1.0.9');
 
 /**
- * Expose `Switchery`.
+ * Expose `switchery`.
  */
 
 module.exports = Switchery;
 
 /**
- * Set Switchery default values.
+ * Set switchery default values.
  *
  * @api public
  */
@@ -1605,7 +1605,7 @@ var defaults = {
 };
 
 /**
- * Create Switchery object.
+ * Create switchery object.
  *
  * @param {Object} element
  * @param {Object} options
@@ -1868,7 +1868,7 @@ Switchery.prototype.markedAsSwitched = function() {
 };
 
 /**
- * Initialize Switchery.
+ * Initialize switchery.
  *
  * @api private
  */

@@ -1,11 +1,11 @@
 /*
  *
- * Main stylesheet for Switchery.
+ * Main stylesheet for switchery.
  * http://abpetkov.github.io/switchery/
  *
  */
 
-/* Switchery defaults. */
+/* switchery defaults. */
 
 .switchery {
   background-color: #fff;
@@ -37,7 +37,7 @@
   width: 30px;
 }
 
-/* Switchery sizes. */
+/* switchery sizes. */
 
 .switchery-small {
   border-radius: 20px;

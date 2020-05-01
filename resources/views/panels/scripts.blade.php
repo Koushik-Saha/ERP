@@ -35,6 +35,9 @@
         <!-- Validation vendor files -->
         <script src="{{ asset(mix('vendors/js/forms/validation/jqBootstrapValidation.js')) }}"></script>
 
+        {{--    switchery Toggle--}}
+        <script src="{{ asset('js/scripts/switchery/switchery.min.js') }}"></script>
+
         <!-- Toastr vendor files -->
         <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
         <script>
@@ -113,7 +116,7 @@
                 });
             };
 
-            lfm('lfm2', 'file', {prefix: route_prefix});
+            // lfm('lfm2', 'file', {prefix: route_prefix});
         </script>
 
         <!-- Tinymce Editor vendor files -->

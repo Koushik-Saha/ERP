@@ -2,7 +2,13 @@
 
 namespace App;
 
+use App\Models\Activity;
+use App\Models\Attendance;
+use App\Models\BankAccount;
+use App\Models\ItemLog;
+use App\Models\Payment;
 use App\Models\Projects;
+use App\Models\PurchaseItem;
 use App\Models\Role;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -77,10 +83,66 @@ class User extends Authenticatable
     }
 
 
-
     public function clientProjects()
     {
         return $this->hasMany(Projects::class, 'project_client_id', 'id');
+    }
+
+
+
+    //client
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'activity_of_user_id', 'id');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Projects::class, 'bsoft_project_logs', 'pl_user_id', 'pl_project_id');
+    }
+
+    public function vendorProjects()
+    {
+        return $this->belongsToMany(Projects::class, 'bsoft_item_logs', 'il_vendor_id', 'il_project_id');
+    }
+
+    public function attendances() {
+        return $this->hasMany(Attendance::class, 'attendance_user_id', 'id');
+    }
+
+    public function clientPayments() {
+        return $this->hasMany(Payment::class, 'payment_from_user', 'id');
+    }
+
+    public function vendorPayments() {
+        return $this->hasMany(Payment::class, 'payment_to_user', 'id');
+    }
+
+    public function staffPayments() {
+        return $this->hasMany(Payment::class, 'payment_to_user', 'id');
+    }
+
+    public function managerPayments() {
+        return $this->hasMany(Payment::class, 'payment_to_user', 'id');
+    }
+
+    public function expenses() {
+        return $this->hasMany(Payment::class, 'payment_from_user', 'id');
+    }
+
+    public function payments() {
+        return $this->hasMany(Payment::class, 'payment_from_user', 'id');
+    }
+
+    public function paymentToUser() {
+        return $this->hasMany(Payment::class, 'payment_to_user', 'id');
+    }
+
+    public function addedBy() {
+        $activity = Activity::whereIn('activity_note', ['Administrator Created', 'Staff Created', 'Vendor Created', 'Client Created'])
+            ->where('activity_for_user_id', '=', $this->id)
+            ->first();
+        return ($activity) ? $activity->activityBy : null;
     }
 
 
