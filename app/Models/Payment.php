@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+    /**
+     * The table associated with the Model.
+     * @var string
+     */
     protected $table = 'payments';
 
+    /**
+     * The primary key associated with the table.
+     * @var string
+     */
     protected $primaryKey = 'payment_id';
 
     public function project() {

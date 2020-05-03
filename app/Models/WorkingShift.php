@@ -9,4 +9,6 @@ class WorkingShift extends Model
     protected $table = 'working_shifts';
 
     protected $primaryKey = 'shift_id';
+
+    public $timestamps = false;
 }

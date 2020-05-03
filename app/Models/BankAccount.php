@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class BankAccount extends Model
 {
+    /**
+     * The table associated with the Model.
+     * @var string
+     */
     protected $table = 'bank_accounts';
 
+    /**
+     * The primary key associated with the table.
+     * @var string
+     */
     protected $primaryKey = 'bank_id';
 
     public function user() {

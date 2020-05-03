@@ -36,8 +36,8 @@
                                     <tr>
                                         <th scope="row">{{ $index + 1 }}</th>
                                         <td>
-                                            {{--                                            <a href="{{route('man_power.show', ['project' => $project->project_id, 'id' => $labour->id])}}">{{$labour->name}}</a>--}}
-                                            {{$labour->name}}
+                                            <a href="{{route('manpower-details', ['project' => $project->project_id, 'id' => $labour->id])}}">{{$labour->name}}</a>
+{{--                                            {{$labour->name}}--}}
                                         </td>
 
                                         <td>

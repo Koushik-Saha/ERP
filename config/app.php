@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        LaravelFullCalendar\FullCalendarServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -234,6 +235,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Calendar' => LaravelFullCalendar\Facades\Calendar::class,
 
     ],
 

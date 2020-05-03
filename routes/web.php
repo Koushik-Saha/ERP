@@ -88,8 +88,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/monthly-index', 'ManPowerController@monthlyIndex')->name('manpower-monthly');
         Route::post('/salary-report', 'ManPowerController@salaryReport')->name('manpower-salary-report');
 
+        Route::get('/manpower-details/{project}/{id}', 'ManPowerController@manpowerDetails')->name('manpower-details');
+
+        Route::post('/pay', 'ManPowerController@pay')->name('manpower-pay');
+
         Route::prefix('attendance')->group(function () {
             Route::post('/store', 'AttendanceController@storeAttendance')->name('manpower-store-attendance');
+
+            Route::get('/report', 'AttendanceController@report')->name('manpower-attendance-report');
+            Route::post('/report', 'AttendanceController@showReport')->name('manpower-attendance-report');
 
         });
     });

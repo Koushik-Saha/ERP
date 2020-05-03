@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\ManPower;
-use App\Models\Project;
-use App\Models\ProjectLog;
 use App\Models\ProjectLogs;
 use App\Models\Projects;
 use App\Models\Role;
@@ -15,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use LaravelFullCalendar\Facades\Calendar;
 
 class ManPowerController extends Controller
 {
@@ -192,23 +191,25 @@ class ManPowerController extends Controller
         $labor->status = $request->status;
         $labor->save();
 
+//        Helper::addActivity('UserStatus', $labor, 'Status Changed!');
+
         return response()->json(['message' => 'User status updated successfully.']);
     }
 
     public function staffAttendance() {
         $projects = null;
 
-        /*if(Auth::user()->can('manage-man-power')) {
-            $projects = Projects::whereProjectStatus('active')
+        if(Auth::user()->can('manage-man-power')) {
+            $projects = Projects::whereProjectStatus('1')
                 ->orderBy('project_name')
                 ->get();
         }
-        else {*/
+        else {
             $projects = Auth::user()->projects()
-                ->where('project_status', '=', 'active')
+                ->where('project_status', '=', '1')
                 ->orderBy('project_name')
                 ->get();
-//        }
+        }
 
         return view('front-end.manpower.staff-list')->with([
             'projects'   => $projects
@@ -246,17 +247,17 @@ class ManPowerController extends Controller
     public function monthlyIndex() {
         $projects = null;
 
-//        if(Auth::user()->can('manage-man-power')) {
-            $projects = Projects::whereProjectStatus('active')
+        if(Auth::user()->can('manage-man-power')) {
+            $projects = Projects::whereProjectStatus('1')
                 ->orderBy('project_name')
                 ->get();
-//        }
-//        else {
-//            $projects = Auth::user()->projects()
-//                ->where('project_status', '=', 'active')
-//                ->orderBy('project_name')
-//                ->get();
-//        }
+        }
+        else {
+            $projects = Auth::user()->projects()
+                ->where('project_status', '=', '1')
+                ->orderBy('project_name')
+                ->get();
+        }
 
         return view('front-end.manpower.staff-list')->with([
             'projects'   => $projects
@@ -302,6 +303,95 @@ class ManPowerController extends Controller
                 'reqMonth'  => $requestMonth,
 //                'title'     => 'Salary Report of ' . $dt->format('F Y') . '-' . $project->project_name . ' :: ' . getOption('company_name')
             ]);
+    }
+
+    public function manpowerDetails($project, $id)
+    {
+        $pageConfigs = [
+            'sidebarCollapsed' => true
+        ];
+
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/manpower/add-manpower", 'name' => "Manpower"], ['name' => "Add Manpower"]
+        ];
+
+        $pro = Projects::findOrFail($project);
+
+        if(!Auth::user()->can('manage-man-power')) {
+            $assigned = $pro->users()->find(Auth::id());
+            if (!$assigned) {
+                return Helper::redirectBackWithNotification('error', 'Not Found OR You are not authorised!');
+            }
+        }
+
+        $labour = $pro->users()->findOrFail($id);
+
+        $payable = $labour->attendances->sum('attendance_payable_amount');
+        $paid = $labour->staffPayments->sum('payment_amount');
+
+        $events = [];
+        foreach ($labour->attendances as $attendance) {
+            $dt_start = Carbon::parse($attendance->attendance_date)->setTimeFromTimeString($attendance->shift->shift_start);
+            $dt_end = Carbon::parse($attendance->attendance_date)->setTimeFromTimeString($attendance->shift->shift_end);
+
+            $event = Calendar::event(
+                $attendance->shift->shift_name . ' Shift',
+                false,
+                $dt_start,
+                $dt_end,
+                null,
+                [
+                    'color' => '#f05050',
+                    'url' => '#',
+                ]
+            );
+            array_push($events, $event);
+        }
+        $calendar = Calendar::addEvents($events);
+
+        return view('front-end.manpower.details-manpower')->with([
+            'breadcrumbs' => $breadcrumbs,
+            'pageConfigs' => $pageConfigs,
+            'labour'    => $labour,
+            'project'   => $pro,
+            'payable'   => $payable,
+            'paid'      => $paid,
+            'calendar'  => $calendar,
+        ]);
+    }
+
+    public function pay(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'project_id'     => ['required', 'numeric'],
+            'labour_id'      => ['required', 'numeric'],
+//            'date'           => ['date', 'required'],
+            'amount'         => ['required', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return Helper::redirectBackWithValidationError($validator);
+        }
+        if($request->post('amount') > 0) {
+            $payment = Helper::createNewPayment([
+                'type' => 'debit',
+                'to_user' => $request->post('labour_id'),
+                'from_user' => Auth::id(),
+                'to_bank_account' => null,
+                'from_bank_account' => null,
+                'amount' => $request->post('amount'),
+                'project' => $request->post('project_id'),
+                'purpose' => 'salary',
+                'by' => 'cash',
+                'date' => $request->post('date'),
+                'image' => null,
+                'note' => $request->post('note')
+            ], 'Worker Payment Successful!');
+            if(!$payment) {
+                return Helper::redirectBackWithNotification();
+            }
+            return Helper::redirectBackWithNotification('success', 'Payment Successful!');
+        }
+        return Helper::redirectBackWithNotification();
     }
 
 

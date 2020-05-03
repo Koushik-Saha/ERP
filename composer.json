@@ -16,6 +16,7 @@
         "laravel/framework": "^6.0",
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",
+        "qlick/laravel-full-calendar": "^1.1",
         "unisharp/laravel-filemanager": "^2.0"
     },
     "require-dev": {

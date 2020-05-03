@@ -30,9 +30,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+//    protected $fillable = [
+//        'name', 'email', 'password',
+//    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -83,31 +83,38 @@ class User extends Authenticatable
     }
 
 
-    public function clientProjects()
-    {
-        return $this->hasMany(Projects::class, 'project_client_id', 'id');
-    }
-
-
-
-    //client
     public function activities()
     {
         return $this->hasMany(Activity::class, 'activity_of_user_id', 'id');
     }
 
+    /**
+     * Get the projects for the client user.
+     */
+    public function clientProjects()
+    {
+        return $this->hasMany(Projects::class, 'project_client_id', 'id');
+    }
+
+    /**
+     * The projects that assigned to the user.
+     */
     public function projects()
     {
-        return $this->belongsToMany(Projects::class, 'bsoft_project_logs', 'pl_user_id', 'pl_project_id');
+        return $this->belongsToMany(Projects::class, 'project_logs', 'pl_user_id', 'pl_project_id');
     }
 
     public function vendorProjects()
     {
-        return $this->belongsToMany(Projects::class, 'bsoft_item_logs', 'il_vendor_id', 'il_project_id');
+        return $this->belongsToMany(Projects::class, 'project_logs', 'il_vendor_id', 'il_project_id');
     }
 
     public function attendances() {
         return $this->hasMany(Attendance::class, 'attendance_user_id', 'id');
+    }
+
+    public function banks() {
+        return $this->hasMany(BankAccount::class, 'bank_user_id', 'id');
     }
 
     public function clientPayments() {
@@ -129,6 +136,10 @@ class User extends Authenticatable
     public function expenses() {
         return $this->hasMany(Payment::class, 'payment_from_user', 'id');
     }
+
+    /*public function managerRefunds() {
+        return $this->hasMany(Payment::class, 'payment_from_user', 'id');
+    }*/
 
     public function payments() {
         return $this->hasMany(Payment::class, 'payment_from_user', 'id');

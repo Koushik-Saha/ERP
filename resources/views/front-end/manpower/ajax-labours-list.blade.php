@@ -28,7 +28,7 @@
                                     <tr>
                                         <td scope="row">{{ $index+1 }}</td>
                                         <td>
-                                            {{$labour->name}}
+                                            <a href="{{route('manpower-details', ['project' => $project->project_id, 'id' => $labour->id])}}">{{$labour->name}}</a>
                                         </td>
                                         <td>
                                             @if($labour->role->role_slug == 'machine')

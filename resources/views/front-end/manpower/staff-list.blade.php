@@ -177,7 +177,7 @@
                     },
 
                     error: function (xhr, status) {
-                        // alert('There is some error.Try after some time.');
+                        alert('There is some error.Try after some time.');
                     }
                 });
             });
@@ -195,12 +195,12 @@
                     type : "POST",
                     data : { pid: pid, month: month },
                     success: function(response) {
-                        //console.log(response);
+                        console.log(response);
                         $("#ajaxResult").html(response);
                     },
 
                     error: function(xhr, status) {
-                        console.log(xhr, status);
+                        // console.log(xhr, status);
                     }
                 });
             });

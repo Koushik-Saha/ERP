@@ -33,7 +33,7 @@
                                     <tr>
                                         <th scope="row">{{ $index+1 }}</th>
                                         <td>
-                                            {{$labour->name}}
+                                            <a href="{{route('manpower-details', ['project' => $project->project_id, 'id' => $labour->id])}}">{{$labour->name}}</a>
                                             <input type="hidden" name="labour_id_{{ $labour->id }}" value="{{$labour->id}}">
                                         </td>
                                         <td>
@@ -130,13 +130,16 @@
                     data : { labour_id, project_id, date, shift, paid, note},
                     success : function(res){
                         if(res.status === 'error') {
+                            console.log(res);
                             toastr.error(res.msg);
                         }
                         if(res.status === 'success') {
+                            console.log(res);
                             toastr.success(res.msg);
                         }
                     },
                     error : function(xhr, status){
+                        console.log(xhr, status);
                         toastr.error('Something Wrong! Please try again later.');
                     }
                 });
@@ -144,18 +147,18 @@
         });
     });
 
-    $('#Attendence').DataTable({
-        responsive: true,
-        dom: 'Bfrtip',
-        language : {
-            sLengthMenu: "Show _MENU_"
-        },
-        buttons: [
-            'csv', 'pdf',
-            {
-                extend: 'print',
-            }
-        ]
-    });
-    $('.buttons-csv, .buttons-print, .buttons-pdf').addClass('btn btn-success mr-1');
+    // $('#Attendence').DataTable({
+    //     responsive: true,
+    //     dom: 'Bfrtip',
+    //     language : {
+    //         sLengthMenu: "Show _MENU_"
+    //     },
+    //     buttons: [
+    //         'csv', 'pdf',
+    //         {
+    //             extend: 'print',
+    //         }
+    //     ]
+    // });
+    // $('.buttons-csv, .buttons-print, .buttons-pdf').addClass('btn btn-success mr-1');
 </script>

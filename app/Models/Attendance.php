@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
+    /**
+     * The table associated with the Model.
+     * @var string
+     */
     protected $table = 'attendances';
 
+    /**
+     * The primary key associated with the table.
+     * @var string
+     */
     protected $primaryKey = 'attendance_id';
 
     public function user()
