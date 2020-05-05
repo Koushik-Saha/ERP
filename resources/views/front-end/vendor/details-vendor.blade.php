@@ -94,6 +94,50 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <h4 class="card-title">Pay Money</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('manpower-pay') }}" method="post" onsubmit="this.submit.disabled = true;">
+                                    @csrf
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label for="recipient-name">Date :<span style="color: red">*</span></label>
+                                            <input type="date" class="form-control" id="recipient-name" name="date" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name">Amount: <span style="color: red">*</span></label>
+{{--                                            <input name="project_id" type="hidden" value="{{ $project->project_id }}">--}}
+{{--                                            <input name="labour_id" type="hidden" value="{{ $labour->id }}">--}}
+                                            <input name="given_by" type="hidden" value="{{ \Illuminate\Support\Facades\Auth::id() }}">
+                                            <input type="number" id="recipient-name" name="amount" class="form-control" required
+                                                   data-validation-required-message="Expected Salary & min field must be at least 2 digit"
+                                                   minlength="2" placeholder="Expected Salary" onblur="myCalculation()">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="recipient-name">Note :<span style="color: red">*</span></label>
+                                            <fieldset class="form-group">
+                                                <textarea class="form-control" id="recipient-name" rows="3" placeholder="Note" name="note"></textarea>
+                                            </fieldset>
+                                        </div>
+                                        <br>
+                                        @php
+                                            if(\Illuminate\Support\Facades\Auth::user()->isManager()) {
+                                                    $income = \Illuminate\Support\Facades\Auth::user()->managerPayments()->whereIn('payment_purpose', ['employee_transfer', 'employee_refund'])->sum('payment_amount');
+                                                }
+                                        @endphp
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary mr-1">Pay</button>
+                                        <button type="reset" class="btn btn-outline-warning">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-12">
                     <div class="card">
@@ -128,6 +172,54 @@
 {{--                                                </td>--}}
 {{--                                            </tr>--}}
 {{--                                        @endforeach--}}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Projects</th>
+                                            <th>Payment Type</th>
+                                            <th>Received Date</th>
+                                            <th>Amount</th>
+                                            <th>Note</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Transaction History</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body card-dashboard">
+                                <div class="table-responsive">
+                                    <table class="table table-striped dataex-html5-selectors ">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Projects</th>
+                                            <th>Payment Type</th>
+                                            <th>Received Date</th>
+                                            <th>Amount</th>
+                                            <th>Note</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{--                                        @foreach($project as $index => $projects)--}}
+                                        {{--                                            <tr>--}}
+                                        {{--                                                <td scope="row">{{ $index+1 }}</td>--}}
+                                        {{--                                                <td>--}}
+                                        {{--                                                    <a href="{{ route('project-details', ['id' => $projects->project_id]) }}" title="See Project Details">--}}
+                                        {{--                                                        {{ $projects->project_name }}--}}
+                                        {{--                                                    </a>--}}
+                                        {{--                                                </td>--}}
+                                        {{--                                                <td>--}}
+                                        {{--                                                    {{ $projects->project_location }}--}}
+                                        {{--                                                </td>--}}
+                                        {{--                                            </tr>--}}
+                                        {{--                                        @endforeach--}}
                                         </tbody>
                                         <tfoot>
                                         <tr>

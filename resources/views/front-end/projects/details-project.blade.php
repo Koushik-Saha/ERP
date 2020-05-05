@@ -219,9 +219,8 @@
                                             @foreach($projectLogs as $index => $projectLog)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-{{--                                                    <td><a href="{{ route('administrators.show', $adm->id) }}">{{ $adm->name }}</a></td>--}}
-                                                    <td>{{ $projectLog->projectLogsUser->name }}</td>
-                                                    <td>{{ \App\Helpers\Helper::mobileNumber($projectLog->projectLogsUser->mobile) }}</td>
+                                                    <td><a href="{{ route('administrator-details', $projectLog->id) }}">{{ $projectLog->name }}</a></td>
+                                                    <td>{{ \App\Helpers\Helper::mobileNumber($projectLog->mobile) }}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

@@ -14,7 +14,7 @@
     {"url":"","navheader":"Clients","icon":""},
         {"url":"", "name":"Client", "icon":"feather icon-aperture",
           "submenu": [
-            {"url":"/client/add-client", "name":"Add Project", "icon":"feather icon-plus-circle", "i18n":"nav.add_client"},
+            {"url":"/client/add-client", "name":"Add Client", "icon":"feather icon-plus-circle", "i18n":"nav.add_client"},
             {"url":"/client/client-list", "name":"Client Lists", "icon":"feather icon-list", "i18n":"nav.client_list"}
           ]
         },

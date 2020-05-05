@@ -27,6 +27,7 @@
                                         <th>Project Estimated Member</th>
                                         <th>Project Description</th>
                                         <th>Project Image</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -70,6 +71,11 @@
                                         <td>
                                             <img src="{{ asset($projects->project_image) }}" alt="{{ $projects->project_name }}" style="max-width: 80px; max-height: 80px">
                                         </td>
+                                        <td class="text-center">
+                                            <a type="button" class="btn btn-outline-success" title="Edit Project" href="{{ route('project-edit', ['id' => $projects->project_id]) }}">
+                                                <i class="feather icon-edit-1"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                     </tbody>
@@ -85,6 +91,7 @@
                                         <th>Project Estimated Member</th>
                                         <th>Project Description</th>
                                         <th>Project Image</th>
+                                        <th>Action</th>
                                     </tr>
                                     </tfoot>
                                 </table>

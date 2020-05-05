@@ -151,10 +151,12 @@ class ProjectsController extends Controller
         ];
 
         $project = Projects::all();
+        $user = User::where('role_id','5')->get();
 
         return view('front-end.projects.all-project-list')->with([
             'project' => $project,
             'breadcrumbs' => $breadcrumbs,
+            'user' => $user,
         ]);
     }
 
@@ -168,7 +170,12 @@ class ProjectsController extends Controller
 
         $user = User::where('role_id','2')->get();
 
-        $projectLogs = ProjectLogs::all();
+        $role_manager = Role::whereRoleSlug('manager')
+            ->firstOrFail();
+
+        $projectLogs = $project->users()
+            ->where('role_id', '=', $role_manager->role_id)
+            ->get();
 
 
         return view('front-end.projects.details-project')->with([
@@ -177,6 +184,61 @@ class ProjectsController extends Controller
             'user' => $user,
             'projectLogs' => $projectLogs,
         ]);
+    }
+
+    public function edit($id)
+    {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/project/add-project", 'name' => "Project"], ['name' => "Add Project"]
+        ];
+
+        $projects = Projects::findOrFail($id);
+
+        $user = User::where('role_id','5')->get();
+
+        return view('front-end.projects.edit-project')->with([
+            'projects' => $projects,
+            'user' => $user,
+            'breadcrumbs' => $breadcrumbs,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'project_name' => ['required', 'string', 'max:191'],
+            'project_location' => ['required', 'string', 'max:191'],
+            'project_price' => ['required', 'numeric'],
+            'project_status' => ['required'],
+            'project_description' => ['nullable', 'string'],
+            'project_client_id' => ['required'],
+            'project_total_member' => ['required'],
+            'project_date' => ['required', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            return Helper::redirectBackWithValidationError($validator);
+        }
+
+        $project = Projects::findOrFail($id);
+
+        $project->project_name = $request->post('project_name');
+        $project->project_location = $request->post('project_location');
+        $project->project_price = $request->post('project_price');
+        $project->project_status = $request->post('project_status');
+        $project->project_client_id = $request->post('project_client_id');
+        $project->project_date = $request->post('project_date');
+        $project->project_total_member = $request->post('project_total_member');
+        $project->project_description = $request->post('project_description');
+        $project->project_image = $request->post('project_image');
+
+        $project->save();
+
+        Helper::addActivity('project', $project->project_id, 'Project Updated!');
+
+        return Helper::redirectUrlWithNotification(route('project-details', ['id' => $project->project_id]),
+            'success', 'Project Successfully Updated!');
     }
 
 }

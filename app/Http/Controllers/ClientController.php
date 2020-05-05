@@ -109,4 +109,63 @@ class ClientController extends Controller
         ]);
     }
 
+    public function edit($id)
+    {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/client/add-client", 'name' => "Client"], ['name' => "Add Client"]
+        ];
+
+        $client = User::findOrFail($id);
+
+        return view('front-end.client.edit-client')->with([
+            'client' => $client,
+            'breadcrumbs' => $breadcrumbs,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:191'],
+            'fathers_name' => ['required', 'string', 'max:191'],
+            'email' => ['required', 'email'],
+            'username' => ['required'],
+            'address' => ['required'],
+            'password' => ['required','min:8'],
+            'salary' => ['required', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return Helper::redirectBackWithValidationError($validator);
+        }
+
+        $client = User::findOrFail($id);
+
+        $client->role_id = $request->post('role_id');
+        $client->name = $request->post('name');
+        $client->fathers_name = $request->post('fathers_name');
+        $client->email = $request->post('email');
+        $client->username = $request->post('username');
+        $client->mobile = $request->post('mobile');
+        $client->address = $request->post('address');
+        $client->email_verified_at = Carbon::now();
+        $client->password = Hash::make($request->post('password'));
+        $client->image = $request->post('image');
+        $client->can_login = $request->post('can_login');
+        $client->salary = $request->post('salary');
+        $client->note = $request->post('note');
+        $client->status = $request->post('status');
+        $client->cover_image = $request->post('cover_image');
+        $client->fb_url = $request->post('fb_url');
+        $client->instagram_url = $request->post('instagram_url');
+
+        $client->save();
+
+        Helper::addActivity('client', $client->id, 'Client Updated!');
+
+        return Helper::redirectUrlWithNotification(route('client-details', ['id' => $client->id]),
+            'success', 'Client Successfully Updated!');
+    }
+
 }

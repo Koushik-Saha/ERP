@@ -25,7 +25,8 @@
                                         <th>Salary</th>
                                         <th>Address</th>
                                         <th>Note</th>
-                                        <th>image</th>
+                                        <th>Image</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -68,6 +69,11 @@
                                                     @endif
                                                 </div>
                                             </td>
+                                            <td class="text-center">
+                                                <a type="button" class="btn btn-outline-success" title="Edit Client" href="{{ route('client-edit', ['id' => $users->id]) }}">
+                                                    <i class="feather icon-edit-1"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -82,7 +88,8 @@
                                         <th>Salary</th>
                                         <th>Address</th>
                                         <th>Note</th>
-                                        <th>image</th>
+                                        <th>Image</th>
+                                        <th>Action</th>
                                     </tr>
                                     </tfoot>
                                 </table>

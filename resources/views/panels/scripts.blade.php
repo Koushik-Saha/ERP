@@ -116,7 +116,7 @@
                 });
             };
 
-            // lfm('lfm2', 'file', {prefix: route_prefix});
+            lfm('lfm2', 'file', {prefix: route_prefix});
         </script>
 
         <!-- Tinymce Editor vendor files -->
@@ -130,7 +130,7 @@
                 ],
                 relative_urls: false,
                 height: 129,
-                width: 1001,
+                width: 1000,
                 file_browser_callback: function (field_name, url, type, win) {
                     var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
                     var y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;

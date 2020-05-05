@@ -22,13 +22,18 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/add-project', 'ProjectsController@addProject')->name('projects-add-project');
         Route::post('/add-project', 'ProjectsController@processAddProject')->name('projects-add-project');
+
         Route::get('/active-project-list', 'ProjectsController@activeProjectList')->name('active-project-list');
         Route::get('/hold-project-list', 'ProjectsController@holdProjectList')->name('hold-project-list');
         Route::get('/completed-project-list', 'ProjectsController@completedProjectList')->name('completed-project-list');
         Route::get('/cancelled-project-list', 'ProjectsController@cancelledProjectList')->name('cancelled-project-list');
         Route::get('/all-project-list', 'ProjectsController@allProjectList')->name('all-project-list');
+
         Route::get('/project-details/{id}', 'ProjectsController@projectDetails')->name('project-details');
         Route::post('/assign/{id}', 'ProjectLogsController@assignToProject')->name('project.assign');
+
+        Route::get('/edit/{id}', 'ProjectsController@edit')->name('project-edit');
+        Route::post('/edit/{id}', 'ProjectsController@update')->name('project-edit');
 
     });
 // Route Client
@@ -36,8 +41,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/add-client', 'ClientController@addClient')->name('add-client');
         Route::post('/add-client', 'ClientController@processAddClient')->name('add-client');
+
         Route::get('/client-list', 'ClientController@clientList')->name('client-list');
+
         Route::get('/client-details/{id}', 'ClientController@clientDetails')->name('client-details');
+
+        Route::get('/edit/{id}', 'ClientController@edit')->name('client-edit');
+        Route::post('/edit/{id}', 'ClientController@update')->name('client-edit');
 
     });
 
