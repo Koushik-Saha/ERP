@@ -111,6 +111,44 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    //Accountant
+    Route::prefix('accounts')->group(function () {
+
+        Route::get('/index', 'BankAccountController@index')->name('bank-index');
+        Route::post('/add-account', 'BankAccountController@storeAccount')->name('add-bank-account');
+
+        Route::post('/transfer-to-employee', 'BankAccountController@transferToEmployee')->name('bank-transfer-to-employee');
+
+        Route::post('/transfer-to-office', 'BankAccountController@transferToOffice')->name('bank-transfer-to-office');
+
+        Route::post('/withdraw-from-bank', 'BankAccountController@withdrawFromBank')->name('withdraw-from-bank');
+        Route::post('/deposit-to-bank', 'BankAccountController@depositToBank')->name('deposit-to-bank');
+
+        Route::post('recharge-from-client', 'BankAccountController@rechargeFromCustomer')->name('recharge-from-client');
+
+        Route::get('/bank-details/{id}', 'BankAccountController@bankDetails')->name('bank-show');
+
+
+        Route::post('/get-bank-users', 'BankAccountController@getUsers')->name('bank-users-search');
+        Route::post('/get-bank-projects', 'BankAccountController@getManagers')->name('bank-project-manager-search');
+        Route::post('/get-bank-client-projects', 'BankAccountController@getClientProjects')->name('bank-client-project-search');
+
+        Route::get('/income', 'BankAccountController@income')->name('bank-income');
+        Route::get('/expense', 'BankAccountController@expense')->name('bank-expense');
+    });
+
+    // Loans Route
+    Route::prefix('loans')->group(function () {
+        Route::get('/', 'LoanController@index')->name('loan-index');
+
+        Route::post('/new', 'LoanController@storeLoan')->name('loan-new');
+        Route::post('/pay', 'LoanController@payLoan')->name('loan-pay');
+
+        Route::get('/show/{id}', 'LoanController@show')->name('loan-show');
+
+        Route::get('/pay/banks', 'LoanController@bankAccounts')->name('loan-banks');
+    });
+
 });
 
 

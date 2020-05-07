@@ -28,6 +28,7 @@ class CreateActivitiesTable extends Migration
             $table->unsignedBigInteger('activity_attendance_id')->nullable();
             $table->unsignedBigInteger('activity_payment_id')->nullable();
             $table->unsignedBigInteger('activity_bank_id')->nullable();
+            $table->unsignedBigInteger('activity_loan_id')->nullable();
             $table->timestamp('created_at')->nullable();
 
             $table->foreign('activity_of_user_id')->references('id')->on('users');

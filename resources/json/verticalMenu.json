@@ -46,6 +46,16 @@
         {"url":"/manpower/staff-list", "name":"Add Staff List", "icon":"feather icon-list", "i18n":"nav.staff_list"},
         {"url":"/manpower/attendance/report", "name":"Attendance Report", "icon":"feather icon-anchor", "i18n":"nav.attendance_report"}
       ]
+    },
+    {"url":"","navheader":"Accounts","icon":""},
+    {"url":"", "name":"Accounts", "icon":"feather icon-airplay",
+      "submenu": [
+        {"url":"/accounts/index", "name":"Accounts", "icon":"feather icon-plus-circle", "i18n":"nav_accounts"},
+        {"url":"/accounts/bank-details/cash", "name":"Cash Transition History", "icon":"feather icon-list", "i18n":"nav.cash_transition_history"},
+        {"url":"/loans", "name":"Loans", "icon":"feather icon-plus-circle", "i18n":"nav.loans"},
+        {"url":"/accounts/income", "name":"Income Report", "icon":"feather icon-list", "i18n":"nav.income_report"},
+        {"url":"/accounts/expense", "name":"Expense Report", "icon":"feather icon-list", "i18n":"nav.expense_report"}
+      ]
     }
 ]}
 
