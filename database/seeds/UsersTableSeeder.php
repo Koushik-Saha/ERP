@@ -97,5 +97,47 @@ class UsersTableSeeder extends Seeder
             'created_at'        => Carbon::now(),
             'updated_at'        => Carbon::now()
         ]);
+
+        DB::table('users')->insert([
+            'role_id'           => 7,
+            'name'              => 'Mr. Labour 01',
+            'email'             => 'labour01@email.com',
+            'username'          => 'labour01',
+            'mobile'            => '01766777357',
+            'email_verified_at' => Carbon::now(),
+            'password'          => Hash::make('12345678'),
+            'can_login'         => 1,
+            'image'             => 'http://localhost:8000/storage/photos/1/Manager/Jayanti Image CV-3.png',
+            'created_at'        => Carbon::now(),
+            'updated_at'        => Carbon::now()
+        ]);
+
+        DB::table('users')->insert([
+            'role_id'           => 8,
+            'name'              => 'Mr. Labour 02',
+            'email'             => 'labour02@email.com',
+            'username'          => 'labour02',
+            'mobile'            => '01766777357',
+            'email_verified_at' => Carbon::now(),
+            'password'          => Hash::make('12345678'),
+            'can_login'         => 1,
+            'image'             => 'http://localhost:8000/storage/photos/1/Manager/Jayanti Image CV-3.png',
+            'created_at'        => Carbon::now(),
+            'updated_at'        => Carbon::now()
+        ]);
+
+        DB::table('users')->insert([
+            'role_id'           => 9,
+            'name'              => 'Mr. Labour 03',
+            'email'             => 'labour03@email.com',
+            'username'          => 'labour03',
+            'mobile'            => '01766777357',
+            'email_verified_at' => Carbon::now(),
+            'password'          => Hash::make('12345678'),
+            'can_login'         => 1,
+            'image'             => 'http://localhost:8000/storage/photos/1/Manager/Jayanti Image CV-3.png',
+            'created_at'        => Carbon::now(),
+            'updated_at'        => Carbon::now()
+        ]);
     }
 }

@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', 'ProjectsController@edit')->name('project-edit');
         Route::post('/edit/{id}', 'ProjectsController@update')->name('project-edit');
 
+        Route::patch('/change-status', 'ProjectsController@changeStatus')->name('project-change-status');
+
     });
 // Route Client
     Route::prefix('client')->group(function () {
@@ -56,8 +58,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/add-vendor', 'VendorController@addVendor')->name('add-vendor');
         Route::post('/add-vendor', 'VendorController@processAddVendor')->name('add-vendor');
+
         Route::get('/vendor-list', 'VendorController@vendorList')->name('vendor-list');
+
         Route::get('/vendor-details/{id}', 'VendorController@vendorDetails')->name('vendor-details');
+
+        Route::get('/edit/{id}', 'VendorController@edit')->name('vendor-edit');
+        Route::post('/edit/{id}', 'VendorController@update')->name('vendor-edit');
 
     });
 

@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Update Client')
+@section('title', 'Update Vendor')
 
 @section('content')
     <section class="input-validation">
@@ -8,10 +8,10 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Update Client</h4>
+                        <h4 class="card-title">Update <span class="text-bold-700" style="color: red">{{$vendor->name}}</span></h4>
                     </div>
                     <form class="form form-vertical" novalidate
-                          action="{{route('client-edit', ['id' => $client->id])}}"
+                          action="{{route('vendor-edit', ['id' => $vendor->id])}}"
                           method="post"
                           enctype="multipart/form-data">
                         @csrf
@@ -19,14 +19,26 @@
                             <div class="card-body">
                                 <form class="form-horizontal">
                                     <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="project_id">Project: </label>
+                                                <select class="select2 form-control" id="project_id"
+                                                        name="project_id">
+                                                    <option selected disabled>Select Project</option>
+                                                    @foreach($project as $projects)
+                                                        <option value="{{ $projects->project_id }}">{{ $projects->project_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Client Name:</label>
+                                                <label>Vendor Name:</label>
                                                 <div class="controls">
                                                     <input type="text" name="name" class="form-control" required
                                                            data-validation-required-message="Client Full Name & only contain alphabetic characters. "
-                                                           placeholder="Enter Client Full Name"
-                                                           value="{{ (old('name') == null || strlen(old('name') < 5) ? $client->name : old('name') ) }}">
+                                                           placeholder="Enter Vendor Full Name"
+                                                           value="{{ (old('name') == null || strlen(old('name') < 5) ? $vendor->name : old('name') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -34,8 +46,8 @@
                                                 <div class="controls">
                                                     <input type="text" name="fathers_name" class="form-control" required
                                                            data-validation-required-message="Client Father's Name & only contain alphabetic characters. "
-                                                           placeholder="Enter Client Father's Name"
-                                                           value="{{ (old('fathers_name') == null || strlen(old('fathers_name') < 5) ? $client->fathers_name : old('fathers_name') ) }}">
+                                                           placeholder="Enter Vendor Father's Name"
+                                                           value="{{ (old('fathers_name') == null || strlen(old('fathers_name') < 5) ? $vendor->fathers_name : old('fathers_name') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -44,7 +56,7 @@
                                                     <input type="email" name="email" class="form-control" required
                                                            data-validation-required-message="Must be a valid email"
                                                            placeholder="Email"
-                                                           value="{{ (old('email') == null || strlen(old('email') < 5) ? $client->email : old('email') ) }}">
+                                                           value="{{ (old('email') == null || strlen(old('email') < 5) ? $vendor->email : old('email') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -75,7 +87,7 @@
                                                            data-validation-required-message="The digits field must be numeric and exactly contain 11 digits"
                                                            maxlength="11" minlength="11"
                                                            placeholder="Enter Your Phone Number"
-                                                           value="{{ (old('mobile') == null || strlen(old('mobile') < 5) ? $client->mobile : old('mobile') ) }}">
+                                                           value="{{ (old('mobile') == null || strlen(old('mobile') < 5) ? $vendor->mobile : old('mobile') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -86,7 +98,7 @@
                                                            data-validation-regex-message="Enter Your User Name, No Dash or Uderscore"
                                                            placeholder="User Name"
                                                            required
-                                                           value="{{ (old('username') == null || strlen(old('username') < 5) ? $client->username : old('username') ) }}">
+                                                           value="{{ (old('username') == null || strlen(old('username') < 5) ? $vendor->username : old('username') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -95,7 +107,7 @@
                                                     <input type="number" name="salary" class="form-control" required
                                                            data-validation-required-message="Expected Salary & min field must be at least 3 digit"
                                                            minlength="3" placeholder="Expected Salary"
-                                                           value="{{ (old('salary') == null || strlen(old('salary') < 5) ? $client->salary : old('salary') ) }}">
+                                                           value="{{ (old('salary') == null || strlen(old('salary') < 5) ? $vendor->salary : old('salary') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -105,7 +117,7 @@
                                                            data-validation-regex-regex="^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
                                                            data-validation-regex-message="Must be a valid url"
                                                            placeholder="Enter valid url" required
-                                                           value="{{ (old('fb_url') == null || strlen(old('fb_url') < 5) ? $client->fb_url : old('fb_url') ) }}">
+                                                           value="{{ (old('fb_url') == null || strlen(old('fb_url') < 5) ? $vendor->fb_url : old('fb_url') ) }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -115,7 +127,7 @@
                                                            data-validation-regex-regex="^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
                                                            data-validation-regex-message="Must be a valid url"
                                                            placeholder="Enter valid url" required
-                                                           value="{{ (old('instagram_url') == null || strlen(old('instagram_url') < 5) ? $client->instagram_url : old('instagram_url') ) }}">
+                                                           value="{{ (old('instagram_url') == null || strlen(old('instagram_url') < 5) ? $vendor->instagram_url : old('instagram_url') ) }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +162,7 @@
                                                         </a>
                                                     </span>
                                                         <input id="thumbnail" class="form-control" type="text" name="image"
-                                                               value="{{ (old('image') == null || strlen(old('image') < 5) ? $client->image : old('image') ) }}">
+                                                               value="{{ (old('image') == null || strlen(old('image') < 5) ? $vendor->image : old('image') ) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,7 +178,7 @@
                                                             </a>
                                                         </span>
                                                         <input id="thumbnail2" class="form-control" type="text" name="cover_image"
-                                                               value="{{ (old('cover_image') == null || strlen(old('cover_image') < 5) ? $client->cover_image : old('cover_image') ) }}">
+                                                               value="{{ (old('cover_image') == null || strlen(old('cover_image') < 5) ? $vendor->cover_image : old('cover_image') ) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,7 +198,7 @@
                                         <div class="col-12" hidden>
                                             <div class="form-group">
                                                 <label for="role_id">Role ID: </label>
-                                                <input id="role_id" class="form-control" type="number" name="role_id" value="5">
+                                                <input id="role_id" class="form-control" type="number" name="role_id" value="6">
                                             </div>
                                         </div>
                                         <div class="col-12">

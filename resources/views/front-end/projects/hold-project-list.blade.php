@@ -35,7 +35,9 @@
                                     <tr>
                                         <td>{{ $index+1 }}</td>
                                         <td>
-                                            {{ $projects->project_name }}
+                                            <a href="{{ route('project-details', ['id' => $projects->project_id]) }}" title="See Project Details">
+                                                {{ $projects->project_name }}
+                                            </a>
                                         </td>
                                         <td>
                                             {{ $projects->project_location }}

@@ -14,6 +14,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
@@ -75,13 +76,6 @@ class ProjectsController extends Controller
         $project->save();
 
         Helper::addActivity('project', $project->project_id, 'Project Created');
-
-//        $notification = array(
-//            'message' => 'Project Create Successfully !',
-//            'alert-type' => 'success'
-//        );
-//
-//        return redirect()->route('active-project-list')->with($notification);
 
         return Helper::redirectUrlWithNotification(route('active-project-list'),
             'success', 'Project Successfully Created!');
@@ -166,7 +160,16 @@ class ProjectsController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/project/add-project", 'name' => "Project"], ['name' => "Add Project"]
         ];
 
-        $project = Projects::findOrFail($id);
+//        $project = Projects::findOrFail($id);
+
+        if (Auth::user()->isAdmin() || Auth::user()->isAccountant()) {
+            $project = Projects::findOrFail($id);
+        } else {
+            $project = Auth::user()->projects()->findOrFail($id);
+        }
+        if (!$project) {
+            return Helper::redirectBackWithNotification('error', 'Project not found or not authorised!');
+        }
 
         $user = User::where('role_id','2')->get();
 
@@ -177,12 +180,44 @@ class ProjectsController extends Controller
             ->where('role_id', '=', $role_manager->role_id)
             ->get();
 
+        $received = $project->payments()->where('payment_type', '=', 'credit')
+            ->where('payment_purpose', '=', 'project_money')
+            ->get();
+
+        if (!Auth::user()->isAdmin() && !Auth::user()->isAccountant()) {
+            $expenses = $project->payments()->where('payment_type', '=', 'debit')
+                ->orderByDesc('payment_date')
+                ->select(
+                    DB::raw('
+                            payment_purpose,
+                            sum(payment_amount) AS payment_amount,
+                            MAX(payment_by) AS payment_by,
+                            MAX(payment_date) AS payment_date
+                    '))
+                ->groupby('payment_purpose')
+                ->get();
+        } else {
+            $expenses = $project->payments()->where('payment_type', '=', 'debit')
+                ->orderByDesc('payment_date')
+                ->select(
+                    DB::raw('
+                            payment_purpose,
+                            sum(payment_amount) AS payment_amount,
+                            MAX(payment_by) AS payment_by,
+                            MAX(payment_date) AS payment_date
+                    '))
+                ->groupby('payment_purpose')
+                ->get();
+        }
+
 
         return view('front-end.projects.details-project')->with([
             'breadcrumbs' => $breadcrumbs,
             'project' => $project,
             'user' => $user,
             'projectLogs' => $projectLogs,
+            'received' => $received,
+            'expenses' => $expenses,
         ]);
     }
 
@@ -239,6 +274,19 @@ class ProjectsController extends Controller
 
         return Helper::redirectUrlWithNotification(route('project-details', ['id' => $project->project_id]),
             'success', 'Project Successfully Updated!');
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $project = Projects::findOrFail($request->post('project'));
+
+        $project->project_status = $request->post('status');
+
+        if ($project->save()) {
+            Helper::addActivity('project', $project->project_id, 'Project Status Changed!');
+            return Helper::redirectBackWithNotification('success', 'Project Status Successfully Changed!');
+        }
+        return Helper::redirectBackWithNotification();
     }
 
 }
