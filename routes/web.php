@@ -73,8 +73,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/add-administrator', 'AdministratorController@addAdministrator')->name('add-administrator');
         Route::post('/add-administrator', 'AdministratorController@processAddAdministrator')->name('add-administrator');
+
         Route::get('/administrator-list', 'AdministratorController@administratorList')->name('administrator-list');
+
         Route::get('/administrator-details/{id}', 'AdministratorController@administratorDetails')->name('administrator-details');
+
+        Route::get('/edit/{id}', 'AdministratorController@edit')->name('administrator-edit');
+        Route::post('/edit/{id}', 'AdministratorController@update')->name('administrator-edit');
 
     });
 
@@ -82,7 +87,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('working-shift')->group(function () {
         Route::get('/add-working-shift', 'WorkingShiftController@addWorkingShift')->name('add-working-shift');
         Route::post('/add-working-shift', 'WorkingShiftController@processWorkingShift')->name('add-working-shift');
+
         Route::post('/working-shift-list', 'WorkingShiftController@workingShiftList')->name('working-shift-list');
+
+        Route::post('/edit/{id}', 'WorkingShiftController@update')->name('working-shift-edit');
+
         Route::delete('/delete', 'WorkingShiftController@delete')->name('shift.delete');
     });
 
@@ -94,6 +103,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/add-designation', 'ManPowerController@addDesignation')->name('add-designation');
         Route::post('/add-designation', 'ManPowerController@processDesignation')->name('add-designation');
         Route::delete('/delete-designation', 'ManPowerController@deleteDesignation')->name('delete-designation');
+
+
+        Route::get('/edit/{id}', 'ManPowerController@edit')->name('manpower-edit');
+        Route::post('/edit/{id}', 'ManPowerController@update')->name('manpower-edit');
 
         Route::get('/staff-list', 'ManPowerController@staffList')->name('staff-list');
         Route::post('/search-staff', 'ManPowerController@searchStaff')->name('manpower-search_staff');

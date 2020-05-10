@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\ManPower;
+use App\Models\Project;
 use App\Models\ProjectLogs;
 use App\Models\Projects;
 use App\Models\Role;
@@ -28,9 +29,9 @@ class ManPowerController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/manpower/add-manpower", 'name' => "Manpower"], ['name' => "Add Manpower"]
         ];
 
-        $projects = Projects::all();
+        $projects = Projects::where('project_status','1')->get();
 
-        $role = Role::all();
+        $role = Role::whereNotIn('role_slug', ['administrator', 'manager', 'accountant', 'client', 'supplier'])->get();
 
         return view('front-end.manpower.add-manpower')->with([
             'breadcrumbs' => $breadcrumbs,
@@ -104,7 +105,7 @@ class ManPowerController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/manpower/add-designation", 'name' => "Designation"], ['name' => "Add Designation"]
         ];
 
-        $role = Role::all();
+        $role = Role::whereNotIn('role_slug', ['administrator', 'manager', 'accountant', 'client', 'supplier'])->get();
 
         return view('front-end.manpower.add-designation')->with([
             'breadcrumbs' => $breadcrumbs,
@@ -159,7 +160,7 @@ class ManPowerController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "/manpower/staff-list", 'name' => "Staff List"], ['name' => "Add Staff List"]
         ];
 
-        $projects = Projects::all();
+        $projects = Projects::where('project_status','1')->get();
 
         return view('front-end.manpower.staff-list')->with([
             'breadcrumbs' => $breadcrumbs,
@@ -168,7 +169,13 @@ class ManPowerController extends Controller
     }
 
     public function searchStaff(Request $request) {
-        $project = Projects::findOrFail($request->post('pid'));
+        if(Auth::user()->isAdmin() || Auth::user()->isAccountant()) {
+            $project = Projects::findOrFail($request->post('pid'));
+        }
+        else {
+            $project = Auth::user()->projects()
+                ->findOrFail($request->post('pid'));
+        }
 
         $roles = Role::whereNotIn('role_slug', ['administrator', 'manager', 'accountant', 'client', 'supplier'])
             ->pluck('role_id')
@@ -392,6 +399,88 @@ class ManPowerController extends Controller
             return Helper::redirectBackWithNotification('success', 'Payment Successful!');
         }
         return Helper::redirectBackWithNotification();
+    }
+
+    public function edit($id)
+    {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "/manpower/add-manpower", 'name' => "Manpower"], ['name' => "Add Manpower"]
+        ];
+
+        $manpower = User::findOrFail($id);
+
+        $role = Role::whereNotIn('role_slug', ['administrator', 'manager', 'accountant'])
+            ->get();
+
+        $projects = Projects::where('project_status','1')->get();
+
+        return view('front-end.manpower.edit-manpower')->with([
+            'manpower' => $manpower,
+            'breadcrumbs' => $breadcrumbs,
+            'role' => $role,
+            'projects' => $projects,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:191'],
+            'fathers_name' => ['required', 'string', 'max:191'],
+            'email' => ['required', 'email'],
+            'username' => ['required'],
+            'address' => ['required'],
+            'password' => ['required','min:8'],
+            'salary' => ['required', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return Helper::redirectBackWithValidationError($validator);
+        }
+
+        $manpower = User::findOrFail($id);
+
+        $manpower->role_id = $request->post('role_id');
+        $manpower->name = $request->post('name');
+        $manpower->fathers_name = $request->post('fathers_name');
+        $manpower->email = $request->post('email');
+        $manpower->username = $request->post('username');
+        $manpower->mobile = $request->post('mobile');
+        $manpower->address = $request->post('address');
+        $manpower->email_verified_at = Carbon::now();
+        $manpower->password = Hash::make($request->post('password'));
+        $manpower->image = $request->post('image');
+        $manpower->can_login = $request->post('can_login');
+        $manpower->salary = $request->post('salary');
+        $manpower->note = $request->post('note');
+        $manpower->status = $request->post('status');
+        $manpower->role_id = $request->post('role_id');
+        $manpower->cover_image = $request->post('cover_image');
+        $manpower->fb_url = $request->post('fb_url');
+        $manpower->instagram_url = $request->post('instagram_url');
+        $manpower->section = $request->post('section');
+
+        $manpower->save();
+
+        Helper::addActivity('manpower', $manpower->id, 'Staff Updated!');
+
+//        $project = Projects::findOrFail($request->post('project_id'));
+//
+//        $pLogs = new ProjectLogs();
+//
+//        $pLogs->pl_project_id = $project->project_id;
+//        $pLogs->pl_user_id = $manpower->id;
+//
+//        if($pLogs->save()) {
+//            Helper::addActivity('project', $project->project_id, 'Project Assigned!');
+//            Helper::addActivity('user', $manpower->id, 'Project Assigned!');
+//            return Helper::redirectUrlWithNotification(route('staff-list'), 'success', 'Staff Successfully Updated & Assigned to the Project.');
+//        }
+
+        return Helper::redirectUrlWithNotification(route('staff-list'), 'success', 'Staff Successfully Updated!');
+
+//        return Helper::redirectBackWithNotification();
     }
 
 

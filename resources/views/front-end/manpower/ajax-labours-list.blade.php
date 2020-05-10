@@ -55,10 +55,10 @@
                                             {{ \App\Helpers\Helper::mobileNumber($labour->mobile) }}
                                         </td>
                                         <td>{{ ($labour->addedBy()) ? $labour->addedBy()->name : 'N/A' }}</td>
-                                        <td>
-{{--                                            <a href="{{ route('man_power.edit', ['id' => $labour->id]) }}" class="btn btn-warning">--}}
-                                                <i class="feather icon-edit-2"></i>
-{{--                                            </a>--}}
+                                        <td >
+                                            <a type="button" class="btn btn-outline-success" title="Edit Client" href="{{ route('manpower-edit', ['id' => $labour->id]) }}">
+                                                <i class="feather icon-edit-1"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
