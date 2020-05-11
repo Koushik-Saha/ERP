@@ -169,6 +169,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/pay/banks', 'LoanController@bankAccounts')->name('loan-banks');
     });
 
+    Route::prefix('category')->group(function () {
+
+        Route::get('/index', 'MotherCategoryController@index')->name('category-index');
+
+        Route::post('/add-mother-category', 'MotherCategoryController@processMotherCategory')->name('add-mother-category');
+        Route::post('/add-category', 'MotherCategoryController@processCategory')->name('add-category');
+        Route::post('/add-sub-category', 'MotherCategoryController@processSubCategory')->name('add-sub-category');
+        Route::post('/add-manufacturer', 'MotherCategoryController@processManufacturer')->name('add-manufacturer');
+
+        Route::get('/sub-category/{id}', 'SubCategoryController@selectCategoryAjax')->name('ajax-sub-category');
+        Route::get('/manufacturer/{id}', 'ManufacturerController@selectManufacturerAjax')->name('ajax-manufacturer');
+
+    });
+
+
+
 });
 
 

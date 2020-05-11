@@ -47,6 +47,12 @@
         {"url":"/manpower/attendance/report", "name":"Attendance Report", "icon":"feather icon-anchor", "i18n":"nav.attendance_report"}
       ]
     },
+    {"url":"","navheader":"Category","icon":""},
+    {"url":"", "name":"Category", "icon":"feather icon-award",
+      "submenu": [
+        {"url":"/category/index", "name":"Category", "icon":"feather icon-plus-circle", "i18n":"nav.category"}
+      ]
+    },
     {"url":"","navheader":"Accounts","icon":""},
     {"url":"", "name":"Accounts", "icon":"feather icon-airplay",
       "submenu": [
